@@ -5,13 +5,13 @@ import jsonpath
 import requests
 
 
-for i in range(0, 9, 1):
+for i in range(0, 3, 1):
     # time.sleep(10)
     url = "https://shuyang.anjuke.com/v3/ajax/map/sale/708/prop_list/?room_num=%s" % i
     print(url)
 
-    # ip = "117.94.120.41"
-    # post = 4285
+    # ip = "106.5.10.206"
+    # post = 4221
     #
     # proxies = {
     #   "http": "http://%s:%d" % (ip, post),
@@ -30,18 +30,8 @@ for i in range(0, 9, 1):
     # print(itme_list)
     all_house = []
 
-    header = ['id', 'region_name', 'block_name', 'rhval', 'area',
-                  'long_title', 'comm_name', 'floor_tag', 'fitment_value']
-
-    with open("沭阳房产_20201106.cav", "w") as f:
-        # 创建一个csv的DictWriter对象，这样才能够将写入csv格式数据到这个文件
-        f_csv = csv.DictWriter(f, header)
-        # 写入一行（我们用第一行当做表头）
-        f_csv.writeheader()
-
-
     for i in itme_list[0]:
-        # time.sleep(2)
+        time.sleep(2)
         id = i.get("id")
         region_name = i.get("region_name")
         block_name = i.get("block_name")
@@ -61,8 +51,11 @@ for i in range(0, 9, 1):
     n = r.url
     n = n.replace("https://shuyang.anjuke.com/v3/ajax/map/sale/708/prop_list/?room_num=", "")
 
-    with open("沭阳房产_20201106(%s).cav" % n, "w", encoding="utf-8") as f:
+    with open("沭阳房产_20201106(%s).csv" % n, "w", encoding="utf-8") as f:
         # 创建一个csv的DictWriter对象，这样才能够将写入csv格式数据到这个文件
-        f_csv = csv.DictWriter(f, header)
+        f_csv = csv.DictWriter(f, ['id', 'region_name', 'block_name', 'rhval', 'area',
+                  'long_title', 'comm_name', 'floor_tag', 'fitment_value'])
+        # 写入一行（我们用第一行当做表头）
+        f_csv.writeheader()
         # 写入多行行（当做数据)
         f_csv.writerows(all_house)
